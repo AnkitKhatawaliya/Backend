@@ -1,0 +1,31 @@
+
+    # InsertQuery = f"""UPDATE {ClassName}
+    #                 SET
+    #                     {ColumnsName} = CASE
+    #                         WHEN Context = 'Adm_NO' THEN CAST(%s AS INTEGER)
+    #                         WHEN Context = 'Name' THEN {ColumnsName}={Student.Name}
+    #                         WHEN Context = 'D.O.B' THEN %s
+    #                         WHEN Context = 'Gender' THEN %s
+    #                         WHEN Context = 'Photo_URL' THEN %s
+    #                         WHEN Context = 'Parent_Name' THEN %s
+    #                         WHEN Context = 'Parent_NO' THEN %s
+    #                         WHEN Context = 'Password' THEN %s
+    #                         WHEN Context = 'Parent_PSD' THEN %s
+    #                         END
+    #                 WHERE Context IN ('Adm_NO', 'Name', 'D.O.B', 'Gender', 'Photo_URL', 'Parent_Name',
+    #                 'Parent_NO', 'Password', 'Parent_PSD');
+    #                """
+    # values = [Student.Adm_NO, Student.DOB, Student.Gender, Student.Photo_URL,
+    #           Student.Parent_Name, Student.Parent_NO, Student.Password, Student.Parent_PSD]
+    # Insert_on_DB(InsertQuery, values)
+    # return True
+    #
+    # # Student.Name=2
+    # # Student.DOB=3
+    # # Student.Gender= 8
+    # # Student.Photo_URL= 8
+    # # Student.Parent_Name= 3
+    # # Student.Parent_NO= 8
+    # # Student.Password= 2
+    # # Student.Parent_PSD = 3
+    # # Use parameterized queries to avoid SQL injection
