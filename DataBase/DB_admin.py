@@ -54,8 +54,8 @@ def DB_add_a_student(Student: StudentModel):
     return True
 
 
-def DB_get_Class_records(Class: Class_Table):
-    ClassName = f"class{Class.Standard}{Class.Section}"
+def DB_get_Class_records(Standard, Section):
+    ClassName = f"class{Standard}{Section}"
     Query = (f"SELECT * FROM {ClassName} WHERE Context = 'Adm_NO' OR Context = 'Name' OR Context = 'D.O.B' OR Context "
              f"= 'Gender' OR Context = 'Parent_Name' OR Context = 'Parent_NO'")
     try:
@@ -64,3 +64,17 @@ def DB_get_Class_records(Class: Class_Table):
         print(e)
         return False
     return Data
+
+
+def DB_delete_a_student(Standard: int,Section: str,Roll_NO: int):
+    ClassName = f"class{Standard}{Section}"
+    Student_column = f"Roll_NO_{Roll_NO}"
+    Query = f"ALTER TABLE {ClassName} DROP COLUMN {Student_column};"
+    try:
+        Execute_on_DB(Query)
+    except Exception as e:
+        print(e)
+        return False
+    return True
+
+
