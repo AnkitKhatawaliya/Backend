@@ -51,6 +51,14 @@ class TimeTableModel(BaseModel):
     Lect_8: int
 
 
+class Notices_Model(BaseModel):
+    Title: str
+    Heading: str
+    Description: str
+    for_date: str
+
+
+
 # class ExampleModel(BaseModel):
 #     integer_value: int
 #     float_value: float

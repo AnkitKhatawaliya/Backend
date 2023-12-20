@@ -1,6 +1,6 @@
 from datetime import datetime
 from DataBase.connection import Execute_on_DB, Fetch_all_from_database, Insert_on_DB, Check_Table_Exist
-from Models.Admin_schemas import StudentModel, TeacherModel, TimeTableModel
+from Models.Admin_schemas import StudentModel, TeacherModel, TimeTableModel, Notices_Model
 from Security.Hash import Convert_to_hash
 
 
@@ -239,6 +239,82 @@ def DB_delete_time_table(Standard: int, Section: str, Weekday: str):
 def DB_get_time_tale(Standard: int, Section: str):
     Table_name = f"Time_Table"
     Query = f"SELECT * FROM {Table_name} WHERE Standard = {Standard} AND Section = {Section}"
+    try:
+        Data = Fetch_all_from_database(Query)
+    except Exception as e:
+        print(e)
+        return False
+    return Data
+
+
+# ----------------------------------------------------------------
+# Calendar Routes
+
+def DB_create_notices_table():
+    Table_name = f"Notices_Table"
+    Query = f"""CREATE TABLE IF NOT EXISTS {Table_name} (
+            Sr_no SERIAL PRIMARY KEY,
+            Title VARCHAR(20),
+            Heading VARCHAR(45),
+            Description VARCHAR(250),
+            Send_DATE DATE,
+            For_Date DATE,
+            Receiver VARCHAR(10)
+            );"""
+    try:
+        Execute_on_DB(Query)
+    except Exception as e:
+        print(e)
+        return False
+    return True
+
+
+def DB_add_Notice(Notice: Notices_Model):
+    Table_name = f"Notices_Table"
+    if Check_Table_Exist(Table_name):
+        pass
+    else:
+        try:
+            DB_create_notices_table()
+        except Exception as e:
+            print(e)
+            return False
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    Receiver = "ALL"
+    Query = """
+    INSERT INTO Notices_Table (Title, Heading, Description, Send_DATE, For_Date, Receiver)
+    VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    Values = (
+        Notice.Title,
+        Notice.Heading,
+        Notice.Description,
+        current_date,
+        Notice.for_date,
+        Receiver
+    )
+    try:
+        Insert_on_DB(Query, Values)
+    except Exception as e:
+        print(e)
+        return False
+    return True
+
+
+def DB_delete_Notice(Sr_no: int):
+    Table_name = f"Notices_Table"
+    Query = f"DELETE FROM {Table_name} WHERE Sr_no ={Sr_no}"
+    try:
+        Execute_on_DB(Query)
+    except Exception as e:
+        print(e)
+        return True
+    return False
+
+
+def DB_get_Notices():
+    Table_name = f"Notices_Table"
+    Query = f"SELECT * FROM {Table_name} ORDER BY Sr_no"
     try:
         Data = Fetch_all_from_database(Query)
     except Exception as e:

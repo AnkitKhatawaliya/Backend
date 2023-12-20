@@ -3,8 +3,8 @@ from fastapi.responses import FileResponse
 from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records, DB_delete_a_student
 from DataBase.DB_admin import DB_Add_Teacher, DB_delete_Teacher, DB_Get_Teachers, DB_add_Time_Table
-from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale
-from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel, TeacherModel, TimeTableModel
+from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale, DB_add_Notice, DB_delete_Notice , DB_get_Notices
+from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel, TeacherModel, TimeTableModel, Notices_Model
 from Security.AWS_methods import Upload_to_Cloud, Download_from_cloud
 from Security.JWT import create_jwt_token
 
@@ -38,7 +38,7 @@ def Add_Student_in_Table(Student: StudentModel):
 
 @router.post('/add_student_image/{ADM_NO}')
 def Add_Student_Image(ADM_NO: int, student_image: UploadFile = File(...)):
-    file_path = f"random"
+    file_path = f"imagefile"
     Name = f"{ADM_NO}.jpg"
     with open(file_path, "wb") as f:
         f.write(student_image.file.read())
@@ -117,7 +117,7 @@ def add_time_table(TimeTable: TimeTableModel):
 @router.delete('/time_table/{Standard}/{Section}/{Weekday}')
 def delete_time_table(Standard: int, Section: str, Weekday: str):
     if DB_delete_time_table(Standard, Section, Weekday):
-        return {'Schedule': "Added"}
+        return {'Schedule': "Deleted"}
     else:
         raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
 
@@ -125,6 +125,33 @@ def delete_time_table(Standard: int, Section: str, Weekday: str):
 @router.get('/time_table/{Standard}/{Section}')
 def get_time_table(Standard: int, Section: str):
     Data = DB_get_time_tale(Standard, Section)
+    if Data:
+        return Data
+    else:
+        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED)
+
+
+# ----------------------------------------------------------------
+# Calendar Routes
+
+@router.post('/notice')
+def add_notice(Notice: Notices_Model):
+    if DB_add_Notice(Notice):
+        return {'Notice':"Added"}
+    else:
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+@router.delete('/notice/{Sr_no}')
+def delete_a_notice(Sr_no: int):
+    if DB_delete_Notice(Sr_no):
+        return {'Schedule': "Deleted"}
+    else:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get('/notices')
+def get_notices():
+    Data = DB_get_Notices()
     if Data:
         return Data
     else:
