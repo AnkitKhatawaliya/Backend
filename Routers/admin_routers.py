@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records, DB_delete_a_student
 from DataBase.DB_admin import DB_Add_Teacher, DB_delete_Teacher, DB_Get_Teachers, DB_add_Time_Table
-from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale, DB_add_Notice, DB_delete_Notice , DB_get_Notices
+from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale, DB_add_Notice, DB_delete_Notice, DB_get_Notices
 from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel, TeacherModel, TimeTableModel, Notices_Model
 from Security.AWS_methods import Upload_to_Cloud, Download_from_cloud
 from Security.JWT import create_jwt_token
@@ -137,9 +137,10 @@ def get_time_table(Standard: int, Section: str):
 @router.post('/notice')
 def add_notice(Notice: Notices_Model):
     if DB_add_Notice(Notice):
-        return {'Notice':"Added"}
+        return {'Notice': "Added"}
     else:
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+
 
 @router.delete('/notice/{Sr_no}')
 def delete_a_notice(Sr_no: int):
