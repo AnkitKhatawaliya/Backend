@@ -28,6 +28,21 @@ def Check_DB_Connection():
         return True
 
 
+def Check_Table_Exist(table_name: str):
+    connection = db_pool.getconn()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(f"SELECT 1 FROM information_schema.tables WHERE table_name = %s", (table_name,))
+        result = cursor.fetchone()
+        return result is not None
+    except Exception as e:
+        print(f"Error in Executing SQL Query: {e}")
+        return False
+    finally:
+        cursor.close()
+        db_pool.putconn(connection)
+
+
 def Execute_on_DB(Query):
     connection = db_pool.getconn()
     cursor = connection.cursor()

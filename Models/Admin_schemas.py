@@ -25,6 +25,31 @@ class StudentModel(BaseModel):
     Parent_PSD: str
 
 
+class TeacherModel(BaseModel):
+    Name: str
+    ID: int
+    Password: str
+    Standard: int
+    Section: str
+    Subject: str
+    Contact_NO: str
+    Other_Classes: str
+    Degree: str
+
+
+class TimeTableModel(BaseModel):
+    Standard: int
+    Section: str
+    Weekday: str
+    Lect_1: int
+    Lect_2: int
+    Lect_3: int
+    Lect_4: int
+    Lect_5: int
+    Lect_6: int
+    Lect_7: int
+    Lect_8: int
+
 
 # class ExampleModel(BaseModel):
 #     integer_value: int

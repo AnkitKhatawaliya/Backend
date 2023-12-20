@@ -2,9 +2,10 @@ import tempfile
 from fastapi.responses import FileResponse
 from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records, DB_delete_a_student
-from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel
+from DataBase.DB_admin import DB_Add_Teacher, DB_delete_Teacher, DB_Get_Teachers, DB_add_Time_Table
+from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale
+from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel, TeacherModel, TimeTableModel
 from Security.AWS_methods import Upload_to_Cloud, Download_from_cloud
-from Security.Hash import Convert_to_hash
 from Security.JWT import create_jwt_token
 
 router = APIRouter()
@@ -29,8 +30,6 @@ def Create_Student_Table(Class: Class_Table):
 
 @router.post('/add_student')
 def Add_Student_in_Table(Student: StudentModel):
-    Student.Password = Convert_to_hash(Student.Password)
-    Student.Parent_PSD = Convert_to_hash(Student.Parent_PSD)
     if DB_add_a_student(Student):
         return {f"Student {Student.Name}": "Added"}
     else:
@@ -75,5 +74,58 @@ def Delete_Student(Standard: int, Section: str, Roll_NO: int):
     else:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
+
 # ----------------------------------------------------------------
 # Routes for Teachers
+
+@router.post('/add_teacher')
+def Add_Teacher(Teacher: TeacherModel):
+    if DB_Add_Teacher(Teacher):
+        return {'Teacher': "Added"}
+    else:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+
+@router.get('/teachers')
+def Get_Teachers():
+    Data = DB_Get_Teachers()
+    if Data:
+        return Data
+    else:
+        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED)
+
+
+@router.delete('/delete_teacher/{ID}')
+def Delete_teacher(ID: int):
+    if DB_delete_Teacher(ID):
+        return {'Teacher': "Deleted"}
+    else:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+
+# ----------------------------------------------------------------
+# Routes for time table
+
+@router.post('/time_table')
+def add_time_table(TimeTable: TimeTableModel):
+    if DB_add_Time_Table(TimeTable):
+        return {'Schedule': "Added"}
+    else:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+
+@router.delete('/time_table/{Standard}/{Section}/{Weekday}')
+def delete_time_table(Standard: int, Section: str, Weekday: str):
+    if DB_delete_time_table(Standard, Section, Weekday):
+        return {'Schedule': "Added"}
+    else:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get('/time_table/{Standard}/{Section}')
+def get_time_table(Standard: int, Section: str):
+    Data = DB_get_time_tale(Standard, Section)
+    if Data:
+        return Data
+    else:
+        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED)
