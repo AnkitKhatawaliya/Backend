@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records, DB_delete_a_student
 from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel
 from Security.AWS_methods import Upload_to_Cloud, Download_from_cloud
+from Security.Hash import Convert_to_hash
 from Security.JWT import create_jwt_token
 
 router = APIRouter()
@@ -28,6 +29,8 @@ def Create_Student_Table(Class: Class_Table):
 
 @router.post('/add_student')
 def Add_Student_in_Table(Student: StudentModel):
+    Student.Password = Convert_to_hash(Student.Password)
+    Student.Parent_PSD = Convert_to_hash(Student.Parent_PSD)
     if DB_add_a_student(Student):
         return {f"Student {Student.Name}": "Added"}
     else:
@@ -35,7 +38,7 @@ def Add_Student_in_Table(Student: StudentModel):
 
 
 @router.post('/add_student_image/{ADM_NO}')
-def Add_Student_Image(ADM_NO: int, student_image:UploadFile = File(...)):
+def Add_Student_Image(ADM_NO: int, student_image: UploadFile = File(...)):
     file_path = f"random"
     Name = f"{ADM_NO}.jpg"
     with open(file_path, "wb") as f:
@@ -48,7 +51,11 @@ def Add_Student_Image(ADM_NO: int, student_image:UploadFile = File(...)):
 def get_Student_Image(ADM_NO: int):
     Name = f"{ADM_NO}.jpg"
     File_path = tempfile.NamedTemporaryFile(delete=False)
-    Download_from_cloud(Name, File_path.name)
+    try:
+        Download_from_cloud(Name, File_path.name)
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
     return FileResponse(File_path.name, media_type='image/jpeg')
 
 
