@@ -29,3 +29,5 @@
     # # Student.Password= 2
     # # Student.Parent_PSD = 3
     # # Use parameterized queries to avoid SQL injection
+
+AIzaSyBqyjCWGDC6r0UeUB5f4cs-np9NDo1D6-U

@@ -1,5 +1,5 @@
 from datetime import datetime
-from DataBase.connection import Execute_on_DB, Fetch_all_from_database, Insert_on_DB, Check_Table_Exist
+from DataBase.DB_conn import Execute_on_DB, Fetch_all_from_database, Insert_on_DB, Check_Table_Exist
 from Models.Admin_schemas import StudentModel, TeacherModel, TimeTableModel, Notices_Model
 from Security.Hash import Convert_to_hash
 
@@ -321,3 +321,42 @@ def DB_get_Notices():
         print(e)
         return False
     return Data
+
+
+def DB_Create_HW_Table():
+    Query = """
+    CREATE TABLE IF NOT EXISTS HomeWork_Table (
+        ID SERIAL PRIMARY KEY,
+        Standard VARCHAR(10) NOT NULL,
+        Section VARCHAR(10) NOT NULL,
+        Subject VARCHAR(100) NOT NULL,
+        Monday TEXT DEFAULT 'yet to be added',
+        Tuesday TEXT DEFAULT 'yet to be added',
+        Wednesday TEXT DEFAULT 'yet to be added',
+        Thursday TEXT DEFAULT 'yet to be added',
+        Friday TEXT DEFAULT 'yet to be added',
+        Saturday TEXT DEFAULT 'yet to be added'
+    )
+    """
+    try:
+        Execute_on_DB(Query)
+    except Exception as e:
+        print(e)
+        return False
+    return True
+
+
+def DB_Config_HW_Table(Standard, Section, Subject):
+    Query = """
+    INSERT INTO HomeWork_Table (Standard, Section, Subject)
+    VALUES (%s, %s, %s)
+    """
+    Values = (
+        Standard, Section, Subject
+    )
+    try:
+        Insert_on_DB(Query, Values)
+    except Exception as e:
+        print(e)
+        return False
+    return True

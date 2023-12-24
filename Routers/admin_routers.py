@@ -1,7 +1,8 @@
 import tempfile
 from fastapi.responses import FileResponse
 from fastapi import APIRouter, HTTPException, status, UploadFile, File
-from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records, DB_delete_a_student
+from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records, DB_delete_a_student, \
+    DB_Create_HW_Table, DB_Config_HW_Table
 from DataBase.DB_admin import DB_Add_Teacher, DB_delete_Teacher, DB_Get_Teachers, DB_add_Time_Table
 from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale, DB_add_Notice, DB_delete_Notice, DB_get_Notices
 from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel, TeacherModel, TimeTableModel, Notices_Model
@@ -14,7 +15,7 @@ router = APIRouter()
 @router.post('/login')
 def admin_login(User: AdminLogin):
     if User.ID == "pankaj" and User.Password == "PASSWORD":
-        token = create_jwt_token(User.ID)
+        token = create_jwt_token(User.ID, "Admin")
         return {"Login": "Success", "Token": token}
     else:
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail=["error"])
@@ -62,7 +63,7 @@ def get_Student_Image(ADM_NO: int):
 def Get_Student(Standard: int, Section: str):
     Data = DB_get_Class_records(Standard, Section)
     if not Data:
-        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED, detail=["error"])
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["error"])
     else:
         return Data
 
@@ -128,7 +129,7 @@ def get_time_table(Standard: int, Section: str):
     if Data:
         return Data
     else:
-        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED)
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
 # ----------------------------------------------------------------
@@ -156,4 +157,23 @@ def get_notices():
     if Data:
         return Data
     else:
-        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED)
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+# ----------------------------------------------------------------
+# Homework Routes
+
+
+@router.get('/Create_HW_Table')
+def Create_HW_Table():
+    if DB_Create_HW_Table():
+        return {'Table': "Created"}
+    else:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.post("/Config_HW_Table/{Standard}/{Section}/{Subject}")
+def add_class_homework(Standard: str, Section: str, Subject: str):
+    if DB_Config_HW_Table(Standard, Section, Subject):
+        return {'Table': "Created"}
+    else:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
