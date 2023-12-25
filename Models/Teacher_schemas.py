@@ -7,3 +7,12 @@ class Homework_Model(BaseModel):
     Subject: str
     Day: str
     Homework: str
+
+
+class Notices_Model(BaseModel):
+    Title: str
+    Heading: str
+    Description: str
+    for_date: str
+    Standard: int
+    Section: str

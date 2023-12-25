@@ -2,7 +2,7 @@ from datetime import datetime
 
 from DataBase.DB_conn import fetch_from_database, Fetch_all_from_database, Execute_on_DB, Insert_on_DB, \
     Fetch_par_from_database
-from Models.Teacher_schemas import Homework_Model
+from Models.Teacher_schemas import Homework_Model, Notices_Model
 
 
 def DB_validate_teacher(ID: int, password: str):
@@ -151,3 +151,26 @@ def DB_get_Notices():
         print(e)
         return False
     return Data
+
+
+def DB_add_Notice(Notice: Notices_Model):
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    Receiver = "class" + f"{Notice.Standard}" + f"{Notice.Section}"
+    Query = """
+    INSERT INTO Notices_Table (Title, Heading, Description, Send_DATE, For_Date, Receiver)
+    VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    Values = (
+        Notice.Title,
+        Notice.Heading,
+        Notice.Description,
+        current_date,
+        Notice.for_date,
+        Receiver
+    )
+    try:
+        Insert_on_DB(Query, Values)
+    except Exception as e:
+        print(e)
+        return False
+    return True
