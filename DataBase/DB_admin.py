@@ -248,7 +248,7 @@ def DB_get_time_tale(Standard: int, Section: str):
 
 
 # ----------------------------------------------------------------
-# Calendar Routes
+# Notices Routes
 
 def DB_create_notices_table():
     Table_name = f"Notices_Table"

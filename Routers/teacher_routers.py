@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status, HTTPException
-from DataBase.DB_teacher import DB_validate_teacher, DB_get_Class_records, DB_Mark_Attendance, DB_give_Marks, \
-    DB_Update_Homework, DB_get_Notices, DB_get_Attendance, DB_get_Marks, DB_get_Homework, DB_get_teacher_schedule
+from DataBase.DB_teacher import DB_validate_teacher, DB_get_Class_records, DB_Mark_Attendance, DB_give_Marks
+from DataBase.DB_teacher import DB_Update_Homework, DB_get_Notices, DB_get_Attendance, DB_get_Marks
+from DataBase.DB_teacher import DB_get_Homework, DB_get_teacher_schedule
 from Models.Teacher_schemas import Homework_Model
 from Security.Hash import Convert_to_hash
 from Security.JWT import create_jwt_token_int

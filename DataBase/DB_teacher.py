@@ -6,11 +6,10 @@ from Models.Teacher_schemas import Homework_Model
 
 
 def DB_validate_teacher(ID: int, password: str):
-    print(ID, password)
     Query = "SELECT * FROM Teacher_records WHERE ID = %s"
     Value = ID
     result = fetch_from_database(Query, Value)
-    if result[password] == password:
+    if result["Password"] == password:
         return True
     else:
         return False

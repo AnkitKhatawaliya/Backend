@@ -38,7 +38,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
 
 
-def create_jwt_token_int(user_id: int,  user_role: str):
+def create_jwt_token_int(user_id: int, user_role: str):
     expiration_time = datetime.utcnow() + timedelta(days=60)
     payload = {"sub": user_id, "exp": expiration_time, "role": user_role}
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
@@ -57,7 +57,7 @@ def get_current_user_int(token: str = Depends(oauth2_scheme)):
         role = payload.get("role")
         if user_id is None:
             raise credentials_exception
-        return user_id , role
+        return user_id, role
     except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_426_UPGRADE_REQUIRED,
