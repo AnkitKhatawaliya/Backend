@@ -5,12 +5,7 @@ from psycopg2 import pool
 db_pool = psycopg2.pool.SimpleConnectionPool(
     minconn=1,
     maxconn=10,
-    user='postgres',
-    password='Ankit123@post',
-    database='School',
-    host='localhost',
-    port='8003',
-    cursor_factory=RealDictCursor
+    dsn="postgresql://1234cochackers:PcDl5H3mpzRG@ep-weathered-wood-55731943.ap-southeast-1.aws.neon.tech/UserBooks?sslmode=require"
 )
 
 
