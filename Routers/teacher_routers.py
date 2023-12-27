@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status, HTTPException
+from fastapi.responses import JSONResponse
 from DataBase.DB_teacher import DB_validate_teacher, DB_get_Class_records, DB_Mark_Attendance
 from DataBase.DB_teacher import DB_give_Marks, DB_add_Notice
 from DataBase.DB_teacher import DB_Update_Homework, DB_get_Notices, DB_get_Attendance, DB_get_Marks

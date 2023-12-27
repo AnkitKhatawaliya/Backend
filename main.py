@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from DataBase.DB_conn import Check_DB_Connection
-# from Routers.admin_routers import router as admin_routers
+from Routers.admin_routers import router as admin_routers
 from Routers.teacher_routers import router as teacher_routers
+from Routers.client_routers import router as client_routers
 
 app = FastAPI()
 
@@ -19,5 +20,6 @@ def Check_Connection():
         return {"Connection": "Hampered"}
 
 
-# app.include_router(admin_routers, prefix="")
-app.include_router(teacher_routers, prefix="")
+app.include_router(admin_routers, prefix="/Admin")
+app.include_router(teacher_routers, prefix="/Teacher")
+app.include_router(client_routers, prefix="/Client")
