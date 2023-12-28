@@ -41,7 +41,7 @@ def get_Student_Image(ADM_NO: int):
     Name = f"{ADM_NO}.jpg"
     File_path = tempfile.NamedTemporaryFile(delete=False)
     try:
-        Download_from_cloud(Name, File_path.name)
+        Download_from_cloud(Name, File_path.name, "Student")
     except Exception as e:
         print(e)
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)

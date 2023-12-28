@@ -43,7 +43,7 @@ def Add_Student_Image(ADM_NO: int, student_image: UploadFile = File(...)):
     Name = f"{ADM_NO}.jpg"
     with open(file_path, "wb") as f:
         f.write(student_image.file.read())
-    Upload_to_Cloud(Name, file_path)
+    Upload_to_Cloud(Name, file_path,"Student")
     return {"Photo": "Uploaded"}
 
 
@@ -52,7 +52,7 @@ def get_Student_Image(ADM_NO: int):
     Name = f"{ADM_NO}.jpg"
     File_path = tempfile.NamedTemporaryFile(delete=False)
     try:
-        Download_from_cloud(Name, File_path.name)
+        Download_from_cloud(Name, File_path.name, "Student")
     except Exception as e:
         print(e)
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
