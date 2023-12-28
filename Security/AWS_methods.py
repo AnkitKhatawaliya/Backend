@@ -9,7 +9,7 @@ s3 = boto3.client(
 )
 
 Student_Bucket = "images-school"
-General_Bucket = "images-general"
+General_Bucket = "side-files"
 
 
 def Upload_to_Cloud(Name: str, File_path: str, Where: str):

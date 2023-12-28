@@ -17,7 +17,7 @@ def Add_Teacher_Image(ID: int, student_image: UploadFile = File(...)):
 
 
 @router.get('/Teacher_image/{ID}')
-def get_Student_Image(ID: int):
+def Get_Teacher_Image(ID: int):
     Name = f"{ID}.jpg"
     File_path = tempfile.NamedTemporaryFile(delete=False)
     try:
@@ -29,7 +29,7 @@ def get_Student_Image(ID: int):
 
 
 @router.post('/Basic_image/{Name}')
-def Add_Teacher_Image(Name: str, student_image: UploadFile = File(...)):
+def Add_image(Name: str, student_image: UploadFile = File(...)):
     file_path = f"imagefile"
     Name = f"{Name}.jpg"
     with open(file_path, "wb") as f:
@@ -39,7 +39,7 @@ def Add_Teacher_Image(Name: str, student_image: UploadFile = File(...)):
 
 
 @router.get('/Basic_image/{Name}')
-def get_Student_Image(Name: str):
+def Get_Image(Name: str):
     Name = f"{Name}.jpg"
     File_path = tempfile.NamedTemporaryFile(delete=False)
     try:
