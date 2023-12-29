@@ -6,7 +6,7 @@ from DataBase.DB_client import DB_Fetch_TimeTable
 from DataBase.DB_client import DB_Fetch_Notices, DB_Get_Homework
 from Models.Client_Schemas import Validation_Model
 from Security.AWS_methods import Download_from_cloud
-from Security.JWT import create_jwt_token_int
+from Security.jwt_methods import create_jwt_token_int
 
 router = APIRouter()
 

@@ -7,7 +7,7 @@ from DataBase.DB_admin import DB_Create_HW_Table, DB_Config_HW_Table, DB_delete_
 from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale, DB_add_Notice, DB_delete_Notice, DB_get_Notices
 from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel, TeacherModel, TimeTableModel, Notices_Model
 from Security.AWS_methods import Upload_to_Cloud, Download_from_cloud
-from Security.JWT import create_jwt_token
+from Security.jwt_methods import create_jwt_token
 
 router = APIRouter()
 

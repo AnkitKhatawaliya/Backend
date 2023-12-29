@@ -6,7 +6,7 @@ from DataBase.DB_teacher import DB_Update_Homework, DB_get_Notices, DB_get_Atten
 from DataBase.DB_teacher import DB_get_Homework, DB_get_teacher_schedule
 from Models.Teacher_schemas import Homework_Model, Notices_Model
 from Security.Hash import Convert_to_hash
-from Security.JWT import create_jwt_token_int
+from Security.jwt_methods import create_jwt_token_int
 
 router = APIRouter()
 
