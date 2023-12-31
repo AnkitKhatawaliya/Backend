@@ -122,8 +122,8 @@ def DB_Add_Teacher(Teacher: TeacherModel):
             print(e)
             return False
     Query = """
-    INSERT INTO Teacher_records (Name, ID, Password, Standard, Section, Subject, Contact_NO, Other_Classes, Degree)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO Teacher_Table (Name, ID, Password, Standard, Section, Subject, Contact_NO, Other_Classes, Degree)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s , %s)
     """
     Values = (
         Teacher.Name,
