@@ -17,7 +17,7 @@ def DB_validate_teacher(ID: int, password: str):
 
 def DB_get_Class_records(Standard: int, Section: str):
     ClassName = f"class{Standard}{Section}"
-    Query = f"SELECT * FROM {ClassName} WHERE Context = 'Name'"
+    Query = f"SELECT * FROM {ClassName} WHERE Context = 'Name' OR Context = 'Roll_No'"
     try:
         Data = Fetch_all_from_database(Query)
     except Exception as e:
@@ -94,7 +94,7 @@ def DB_Update_Homework(Homework: Homework_Model):
 
 def DB_get_Attendance(Standard, Section):
     ClassName = f"class{Standard}{Section}"
-    Query = f"SELECT * FROM {ClassName} WHERE Context = 'Attendance'"
+    Query = f"SELECT * FROM {ClassName} WHERE Context = 'Attendance' OR Context = 'Name'"
     try:
         Data = Fetch_all_from_database(Query)
     except Exception as e:
@@ -105,7 +105,7 @@ def DB_get_Attendance(Standard, Section):
 
 def DB_get_Marks(Standard, Section, Subject: str):
     ClassName = f"class{Standard}{Section}"
-    Query = f"SELECT * FROM {ClassName} WHERE Context LIKE %s"
+    Query = f"SELECT * FROM {ClassName} WHERE Context LIKE %s OR Context = 'Name'"
     Value = f"{Subject}_%"
     try:
         Data = Fetch_par_from_database(Query, Value)

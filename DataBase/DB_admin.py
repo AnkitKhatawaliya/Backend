@@ -16,6 +16,7 @@ def DB_Create_Class_Table(Standard: int, Section: str):
     InsertQuery = f"""INSERT INTO {ClassName} (Date, Context)
     VALUES 
         ('{current_date}', 'Adm_NO'),
+        ('{current_date}', 'Roll_No'),
         ('{current_date}', 'Name'),
         ('{current_date}', 'D.O.B'),
         ('{current_date}', 'Gender'),
@@ -41,6 +42,7 @@ def DB_add_a_student(Student: StudentModel):
     add_column_query = f"ALTER TABLE {ClassName} ADD COLUMN IF NOT EXISTS {ColumnsName} TEXT"
 
     insert_query = (f"UPDATE {ClassName} SET {ColumnsName} = %s WHERE Context = 'Adm_NO';"
+                    f"UPDATE {ClassName} SET {ColumnsName} = %s WHERE Context = 'Roll_No';"
                     f"UPDATE {ClassName} SET {ColumnsName} = %s WHERE Context = 'Name';"
                     f"UPDATE {ClassName} SET {ColumnsName} = %s WHERE Context = 'D.O.B';"
                     f"UPDATE {ClassName} SET {ColumnsName} = %s WHERE Context = 'Gender';"
@@ -49,7 +51,7 @@ def DB_add_a_student(Student: StudentModel):
                     f"UPDATE {ClassName} SET {ColumnsName} = %s WHERE Context = 'Password';"
                     f"UPDATE {ClassName} SET {ColumnsName} = %s WHERE Context = 'Parent_PSD';")
 
-    values = (Student.Adm_NO, Student.Name, Student.DOB, Student.Gender,
+    values = (Student.Adm_NO, Student.Roll_NO, Student.Name, Student.DOB, Student.Gender,
               Student.Parent_Name, Student.Parent_NO, Student.Password, Student.Parent_PSD)
     try:
         Execute_on_DB(add_column_query)
@@ -63,7 +65,7 @@ def DB_add_a_student(Student: StudentModel):
 def DB_get_Class_records(Standard, Section):
     ClassName = f"class{Standard}{Section}"
     Query = (f"SELECT * FROM {ClassName} WHERE Context = 'Adm_NO' OR Context = 'Name' OR Context = 'D.O.B' OR Context "
-             f"= 'Gender' OR Context = 'Parent_Name' OR Context = 'Parent_NO'")
+             f"= 'Gender' OR Context = 'Parent_Name' OR Context = 'Parent_NO' OR Context = 'Roll_No'")
     try:
         Data = Fetch_all_from_database(Query)
     except Exception as e:

@@ -12,7 +12,7 @@ from Security.jwt_methods import create_jwt_token
 router = APIRouter()
 
 
-@router.post('/login')
+@router.post('/login', status_code=status.HTTP_202_ACCEPTED)
 def admin_login(User: AdminLogin):
     if User.ID == "pankaj" and User.Password == "PASSWORD":
         token = create_jwt_token(User.ID, "Admin")
@@ -43,7 +43,7 @@ def Add_Student_Image(ADM_NO: int, student_image: UploadFile = File(...)):
     Name = f"{ADM_NO}.jpg"
     with open(file_path, "wb") as f:
         f.write(student_image.file.read())
-    Upload_to_Cloud(Name, file_path,"Student")
+    Upload_to_Cloud(Name, file_path, "Student")
     return {"Photo": "Uploaded"}
 
 
