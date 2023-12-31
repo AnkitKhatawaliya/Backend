@@ -146,7 +146,7 @@ def DB_Add_Teacher(Teacher: TeacherModel):
 
 def DB_Get_Teachers():
     Table_name = f"Teacher_Table"
-    Query = f"SELECT * FROM {Table_name}"
+    Query = f"SELECT * FROM {Table_name} ORDER BY Standard"
     try:
         Data = Fetch_all_from_database(Query)
     except Exception as e:
