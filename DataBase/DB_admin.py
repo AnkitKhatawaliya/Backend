@@ -173,8 +173,8 @@ def DB_delete_Teacher(ID: int):
 def Create_Time_Table():
     Table_name = f"Time_Table"
     Query = f"""CREATE TABLE IF NOT EXISTS {Table_name} (
-            Standard VARCHAR(10),
-            Section INTEGER,
+            Standard INTEGER ,
+            Section VARCHAR(10),
             Weekday VARCHAR(30),
             Lect_1 INTEGER,
             Lect_2 INTEGER,
