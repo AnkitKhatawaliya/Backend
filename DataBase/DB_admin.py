@@ -240,7 +240,7 @@ def DB_delete_time_table(Standard: int, Section: str, Weekday: str):
 
 def DB_get_time_tale(Standard: int, Section: str):
     Table_name = f"Time_Table"
-    Query = f"SELECT * FROM {Table_name} WHERE Standard = {Standard} AND Section = {Section}"
+    Query = f"SELECT * FROM {Table_name} WHERE Standard = {Standard} AND Section = '{Section}'"
     try:
         Data = Fetch_all_from_database(Query)
     except Exception as e:
