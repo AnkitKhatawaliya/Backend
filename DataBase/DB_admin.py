@@ -176,14 +176,14 @@ def Create_Time_Table():
             Standard INTEGER ,
             Section VARCHAR(10),
             Weekday VARCHAR(30),
-            Lect_1 INTEGER,
-            Lect_2 INTEGER,
-            Lect_3 INTEGER,
-            Lect_4 INTEGER,
-            Lect_5 INTEGER,
-            Lect_6 INTEGER,
-            Lect_7 INTEGER,
-            Lect_8 INTEGER
+            Lect_1 VARCHAR(50),
+            Lect_2 VARCHAR(50),
+            Lect_3 VARCHAR(50),
+            Lect_4 VARCHAR(50),
+            Lect_5 VARCHAR(50),
+            Lect_6 VARCHAR(50),
+            Lect_7 VARCHAR(50),
+            Lect_8 VARCHAR(50)
             );"""
     try:
         Execute_on_DB(Query)

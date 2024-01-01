@@ -41,14 +41,14 @@ class TimeTableModel(BaseModel):
     Standard: int
     Section: str
     Weekday: str
-    Lect_1: int
-    Lect_2: int
-    Lect_3: int
-    Lect_4: int
-    Lect_5: int
-    Lect_6: int
-    Lect_7: int
-    Lect_8: int
+    Lect_1: str
+    Lect_2: str
+    Lect_3: str
+    Lect_4: str
+    Lect_5: str
+    Lect_6: str
+    Lect_7: str
+    Lect_8: str
 
 
 class Notices_Model(BaseModel):
