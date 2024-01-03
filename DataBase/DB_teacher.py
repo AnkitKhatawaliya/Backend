@@ -1,15 +1,14 @@
 from datetime import datetime
-
-from DataBase.DB_conn import fetch_from_database, Fetch_all_from_database, Execute_on_DB, Insert_on_DB, \
-    Fetch_par_from_database
+from DataBase.DB_conn import Fetch_all_from_database, Execute_on_DB, Insert_on_DB
+from DataBase.DB_conn import Fetch_par_from_database
 from Models.Teacher_schemas import Homework_Model, Notices_Model
 
 
 def DB_validate_teacher(ID: int, password: str):
-    Query = "SELECT * FROM Teacher_records WHERE ID = %s"
-    Value = ID
-    result = fetch_from_database(Query, Value)
-    if result["Password"] == password:
+    Query = f"SELECT ID, Password  FROM Teacher_Table WHERE ID = {ID}"
+    result = Fetch_all_from_database(Query)
+    print(result)
+    if result[0][1] == password:
         return True
     else:
         return False
