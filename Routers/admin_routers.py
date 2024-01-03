@@ -104,6 +104,16 @@ def Delete_teacher(ID: int):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
+@router.post('/Teacher_image/{ID}')
+def Add_Teacher_Image(ID: int, student_image: UploadFile = File(...)):
+    file_path = f"imagefile"
+    Name = f"{ID}.jpg"
+    with open(file_path, "wb") as f:
+        f.write(student_image.file.read())
+    Upload_to_Cloud(Name, file_path, "General")
+    return {"Photo": "Uploaded"}
+
+
 # ----------------------------------------------------------------
 # Routes for time table
 
@@ -178,3 +188,16 @@ def add_class_homework(Standard: str, Section: str, Subject: str):
         return {'Table': "Created"}
     else:
         raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+
+# ----------------------------------------------------------------
+# Other Routes
+
+
+@router.post('/Basic_image/{Name}')
+def Add_image(Name: str, student_image: UploadFile = File(...)):
+    file_path = f"imagefile"
+    Name = f"{Name}.jpg"
+    with open(file_path, "wb") as f:
+        f.write(student_image.file.read())
+    Upload_to_Cloud(Name, file_path, "General")
+    return {"Photo": "Uploaded"}

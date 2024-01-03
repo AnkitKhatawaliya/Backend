@@ -1,10 +1,12 @@
+import tempfile
+from fastapi.responses import FileResponse
 from fastapi import APIRouter, status, HTTPException
-from fastapi.responses import JSONResponse
 from DataBase.DB_teacher import DB_validate_teacher, DB_get_Class_records, DB_Mark_Attendance, DB_get_teacher_info
 from DataBase.DB_teacher import DB_give_Marks, DB_add_Notice
 from DataBase.DB_teacher import DB_Update_Homework, DB_get_Notices, DB_get_Attendance, DB_get_Marks
 from DataBase.DB_teacher import DB_get_Homework, DB_get_teacher_schedule
 from Models.Teacher_schemas import Homework_Model, Notices_Model
+from Security.AWS_methods import Download_from_cloud
 from Security.Hash import Convert_to_hash
 from Security.jwt_methods import create_jwt_token_int
 
@@ -35,7 +37,16 @@ def HomePageInfo(ID: int):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["Some Error"])
 
 
-
+@router.get('/Teacher_image/{ID}')
+def Get_Teacher_Image(ID: int):
+    Name = f"{ID}.jpg"
+    File_path = tempfile.NamedTemporaryFile(delete=False)
+    try:
+        Download_from_cloud(Name, File_path.name, "General")
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+    return FileResponse(File_path.name, media_type='image/jpeg')
 
 
 @router.get("/get_class_records/{Standard}/{Section}")
