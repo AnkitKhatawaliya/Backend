@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, HTTPException
 from fastapi.responses import JSONResponse
-from DataBase.DB_teacher import DB_validate_teacher, DB_get_Class_records, DB_Mark_Attendance
+from DataBase.DB_teacher import DB_validate_teacher, DB_get_Class_records, DB_Mark_Attendance, DB_get_teacher_info
 from DataBase.DB_teacher import DB_give_Marks, DB_add_Notice
 from DataBase.DB_teacher import DB_Update_Homework, DB_get_Notices, DB_get_Attendance, DB_get_Marks
 from DataBase.DB_teacher import DB_get_Homework, DB_get_teacher_schedule
@@ -14,11 +14,28 @@ router = APIRouter()
 @router.get('/validate_teacher/{ID}/{password}', status_code=status.HTTP_202_ACCEPTED)
 def Validate_Teacher(ID: int, password: str):
     password = Convert_to_hash(password)
-    if DB_validate_teacher(ID, password):
+    data = DB_validate_teacher(ID, password)
+    if data is True:
         token = create_jwt_token_int(ID, "Teacher")
-        return {"Password": "Verified", "Token": token}
+        return {"Token": token}
+    elif data is False:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=["Invalid credentials"])
     else:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=["error"])
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["Some Error"])
+
+
+@router.get('/homepage_info/{ID}', status_code=status.HTTP_202_ACCEPTED)
+def HomePageInfo(ID: int):
+    Info = DB_get_teacher_info(ID)
+    if Info is not None:
+        return Info
+    elif Info is None:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=["Not Exists"])
+    elif Info is False:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["Some Error"])
+
+
+
 
 
 @router.get("/get_class_records/{Standard}/{Section}")

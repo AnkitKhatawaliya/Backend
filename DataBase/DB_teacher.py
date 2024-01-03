@@ -5,12 +5,25 @@ from Models.Teacher_schemas import Homework_Model, Notices_Model
 
 
 def DB_validate_teacher(ID: int, password: str):
-    Query = f"SELECT ID, Password  FROM Teacher_Table WHERE ID = {ID}"
+    Query = f"SELECT * FROM Teacher_Table WHERE ID = {ID}"
     result = Fetch_all_from_database(Query)
-    print(result)
-    if result[0][1] == password:
+    if result[0][2] == password:
         return True
+    elif result[0][2] != password:
+        return False
     else:
+        return None
+
+
+def DB_get_teacher_info(ID: int):
+    Query = f"SELECT * FROM Teacher_Table WHERE ID ={ID}"
+    try:
+        result = Fetch_all_from_database(Query)
+        if not result:
+            return None
+        else:
+            return result
+    except:
         return False
 
 
