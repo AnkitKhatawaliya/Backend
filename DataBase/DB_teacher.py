@@ -42,16 +42,14 @@ def DB_Mark_Attendance(Standard: int, Section: str, Attendance: dict):
     ClassName = f"class{Standard}{Section}"
     current_date = datetime.now().strftime('%Y-%m-%d')
 
-    # Combined query for inserting date, context, and attendance
     Query_combined = f"""INSERT INTO {ClassName} (Date, Context,"""
 
     for i, j in Attendance.items():
         Query_combined += f" Roll_NO_{i},"
 
-    # Remove the trailing comma and add the VALUES part
     Query_combined = Query_combined.rstrip(',') + f") VALUES ('{current_date}', 'Attendance',"
 
-    values_str = ",".join([f" {j}" for i, j in Attendance.items()])
+    values_str = ",".join([f" '{j}'" for i, j in Attendance.items()])
     Query_combined += f"{values_str});"
 
     try:
@@ -71,10 +69,9 @@ def DB_give_Marks(Standard: int, Section: str, Subject: str, Max_marks: int, Mar
     for i, j in Marks.items():
         Query_combined += f" Roll_NO_{i},"
 
-    # Remove the trailing comma and add the VALUES part
     Query_combined = Query_combined.rstrip(',') + f") VALUES ('{current_date}', '{Context}',"
 
-    values_str = ",".join([f" {j}" for i, j in Marks.items()])
+    values_str = ",".join([f" '{j}'" for i, j in Marks.items()])
     Query_combined += f"{values_str});"
 
     try:
