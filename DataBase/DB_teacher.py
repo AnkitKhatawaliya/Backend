@@ -47,7 +47,7 @@ def DB_Mark_Attendance(Standard: int, Section: str, Attendance: dict):
     for i, j in Attendance.items():
         Query_combined += f" Roll_NO_{i},"
 
-    Query_combined = Query_combined.rstrip(',') + f") VALUES ('{current_date}', 'Attendance',"
+    Query_combined = Query_combined.rstrip(',') + f") VALUES ('{current_date}', 'hunt',"
 
     values_str = ",".join([f" '{j}'" for i, j in Attendance.items()])
     Query_combined += f"{values_str});"
