@@ -53,8 +53,7 @@ def DB_Mark_Attendance(Standard: int, Section: str, Attendance: dict):
     Query_combined += f"{values_str});"
 
     try:
-        # Execute_on_DB(Query_combined)
-        print(Query_combined)
+        Execute_on_DB(Query_combined)
     except Exception as e:
         print(e)
         return False

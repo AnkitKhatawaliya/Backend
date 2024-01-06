@@ -10,7 +10,6 @@ app = FastAPI()
 
 @app.get("/")
 def BaseRoot():
-    print("yes prints")
     return {"Backend": "Working"}
 
 
