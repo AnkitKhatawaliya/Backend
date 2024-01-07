@@ -115,7 +115,7 @@ def DB_get_Attendance(Standard, Section):
 def DB_get_Marks(Standard, Section, Subject: str):
     ClassName = f"class{Standard}{Section}"
     Query = f"SELECT * FROM {ClassName} WHERE Context LIKE %s OR Context = 'Name'"
-    Value = f"{Subject}_%"
+    Value = (f"{Subject}_%",)
     try:
         Data = Fetch_par_from_database(Query, Value)
     except Exception as e:
@@ -135,12 +135,12 @@ def DB_get_Homework(Standard, Section, Subject: str):
     return Data
 
 
-def DB_get_teacher_schedule(teacher_id: int):
+def DB_get_teacher_schedule(teacher_id: str):
     query = (
-        "SELECT Standard, Section FROM Time_Table WHERE "
+        "SELECT Standard, Section, weekday FROM Time_Table WHERE "
         "Lect_1 = %s OR Lect_2 = %s OR Lect_3 = %s OR "
-        "Lect_4 = %s OR Lect_5 = %s OR Lec_6 = %s OR "
-        "Lect_7 = %s OR Lec_8 = %s"
+        "Lect_4 = %s OR Lect_5 = %s OR Lect_6 = %s OR "
+        "Lect_7 = %s OR Lect_8 = %s"
     )
     values = (teacher_id, teacher_id, teacher_id, teacher_id, teacher_id, teacher_id, teacher_id, teacher_id)
     try:

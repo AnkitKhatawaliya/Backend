@@ -92,7 +92,7 @@ def Get_attendance(Standard: int, Section: str):
 
 
 @router.get('/get_marks/{Standard}/{Section}/{Subject}')
-def Get_marks(Standard: int, Section: str, Subject: str):
+def Get_marks(Standard: str, Section: str, Subject: str):
     Data = DB_get_Marks(Standard, Section, Subject)
     if Data is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["error"])
@@ -101,7 +101,7 @@ def Get_marks(Standard: int, Section: str, Subject: str):
 
 
 @router.get("/fetch_homework/{Standard}/{Section}/{Subject}")
-def Get_homework(Standard: int, Section: str, Subject: str):
+def Get_homework(Standard: str, Section: str, Subject: str):
     Data = DB_get_Homework(Standard, Section, Subject)
     if Data is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["error"])
@@ -110,7 +110,7 @@ def Get_homework(Standard: int, Section: str, Subject: str):
 
 
 @router.get("/Fetch_Schedule/{ID}")
-def Get_Schedule(ID: int):
+def Get_Schedule(ID: str):
     Data = DB_get_teacher_schedule(ID)
     if Data is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["error"])
