@@ -91,7 +91,7 @@ def DB_Update_Homework(Homework: Homework_Model):
     AND Section = %s    
     """
     Values = (
-        Homework.Homework, Homework.Subject, Homework.Standard, Homework.Section
+        Homework.Homework, Homework.Subject, f'{Homework.Standard}', Homework.Section
     )
     try:
         Insert_on_DB(Query, Values)
