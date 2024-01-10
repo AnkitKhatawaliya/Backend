@@ -46,7 +46,7 @@ def DB_Validate_Student(Data: Validation_Model):
 def DB_Basic_Info(Standard: int, Section: str, Roll_NO: int):
     ClassName = "class" + f"{Standard}" + f"{Section}"
     ColumnsName = f"Roll_NO_{Roll_NO}"
-    Query = f"SELECT Context , {ColumnsName} FROM {ClassName}"
+    Query = f"SELECT Date , Context , {ColumnsName} FROM {ClassName}"
     try:
         result = Fetch_all_from_database(Query)
         if result is not None:
@@ -58,24 +58,7 @@ def DB_Basic_Info(Standard: int, Section: str, Roll_NO: int):
         return False
 
 
-def DB_Check_Notices(Standard: int, Section: str):
-    current_date = datetime.now().strftime('%Y-%m-%d')
-    ClassName = "class" + f"{Standard}" + f"{Section}"
-    Table_name = f"Notices_Table"
-    Query = f"SELECT * FROM {Table_name} WHERE For_Date = %s AND Receiver = 'ALL' OR Receiver = {ClassName}"
-    Value = current_date
-    try:
-        result = Fetch_par_from_database(Query, Value)
-        if result is not None:
-            return True
-        elif result is None:
-            return False
-    except Exception as e:
-        print(e)
-        return False
-
-
-def DB_Get_Homework(Standard: int, Section: str):
+def DB_Get_Homework(Standard: str, Section: str):
     Query = f"SELECT * FROM HomeWork_Table WHERE Standard = %s AND Section = %s"
     Values = (Standard, Section)
     try:
@@ -89,11 +72,11 @@ def DB_Get_Homework(Standard: int, Section: str):
         return False
 
 
-def DB_Fetch_Notices(Standard: int, Section: str):
+def DB_Fetch_Notices(Standard: str, Section: str):
     current_date = datetime.now().strftime('%Y-%m-%d')
     ClassName = "class" + f"{Standard}" + f"{Section}"
     Table_name = f"Notices_Table"
-    Query = f"SELECT * FROM {Table_name} WHERE Receiver = 'ALL' OR Receiver = {ClassName}"
+    Query = f"SELECT * FROM {Table_name} WHERE Receiver = 'ALL' OR Receiver = '{ClassName}'"
     Value = current_date
     try:
         result = Fetch_par_from_database(Query, Value)

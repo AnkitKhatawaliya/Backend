@@ -1,7 +1,7 @@
 import tempfile
 from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import FileResponse
-from DataBase.DB_client import DB_Validate_Student, DB_Validate_Parent, DB_Basic_Info, DB_Check_Notices
+from DataBase.DB_client import DB_Validate_Student, DB_Validate_Parent, DB_Basic_Info
 from DataBase.DB_client import DB_Fetch_TimeTable
 from DataBase.DB_client import DB_Fetch_Notices, DB_Get_Homework
 from Models.Client_Schemas import Validation_Model
@@ -51,20 +51,17 @@ def get_Student_Image(ADM_NO: int):
 @router.get('/Home_page_info/{Standard}/{Section}/{Roll_NO}')
 def Get_hp_info(Standard: int, Section: str, Roll_NO: int):
     Data = DB_Basic_Info(Standard, Section, Roll_NO)
-    notices_exist = DB_Check_Notices(Standard, Section)
 
     if Data is None:
         raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
     elif not Data:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-    elif notices_exist:
-        return {"Data": Data, "Notice": True}
     else:
-        return {"Data": Data, "Notice": False}
+        return Data
 
 
 @router.get('/Home_Work/{Standard}/{Section}')
-def Get_Homework(Standard: int, Section: str):
+def Get_Homework(Standard: str, Section: str):
     Homework = DB_Get_Homework(Standard, Section)
     if Homework is not None:
         return Homework
@@ -75,7 +72,7 @@ def Get_Homework(Standard: int, Section: str):
 
 
 @router.get('/Notices/{Standard}/{Section}')
-def Get_Notices(Standard: int, Section: str):
+def Get_Notices(Standard: str, Section: str):
     Notices = DB_Fetch_Notices(Standard, Section)
     if Notices is not None:
         return Notices
