@@ -4,38 +4,33 @@ from fastapi.responses import FileResponse
 from DataBase.DB_client import DB_Validate_Student, DB_Validate_Parent, DB_Basic_Info
 from DataBase.DB_client import DB_Fetch_TimeTable
 from DataBase.DB_client import DB_Fetch_Notices, DB_Get_Homework
-from Models.Client_Schemas import Validation_Model
 from Security.AWS_methods import Download_from_cloud
 from Security.jwt_methods import create_jwt_token_int
 
 router = APIRouter()
 
 
-@router.post('/validate_Client')
-def validate_client(Data: Validation_Model):
-    if Data.Role == "Parent":
-        print(Data.Password)
-        print(Data.Roll_NO)
-        print(Data.Standard)
-        print(Data.Role)
-        print(Data.Roll_NO)
-        Result = DB_Validate_Parent(Data)
+@router.get('/validate_Client/{Standard}/{Section}/{Roll_NO}/{Password}/{Role}')
+def validate_client(Standard: str, Section: str, Roll_NO: int, Password: str, Role: str):
+    if Role == "Parent":
+
+        Result = DB_Validate_Parent(Standard, Section, Roll_NO, Password)
         if Result is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         if Result is False:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         if Result is True:
-            Token = create_jwt_token_int(Data.Roll_NO, "Client")
+            Token = create_jwt_token_int(Roll_NO, "Client")
             return {"Token": Token}
 
-    elif Data.Role == "Student":
-        Result = DB_Validate_Student(Data)
+    elif Role == "Student":
+        Result = DB_Validate_Student(Standard, Section, Roll_NO, Password)
         if Result is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         if Result is False:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         if Result is True:
-            Token = create_jwt_token_int(Data.Roll_NO, "Client")
+            Token = create_jwt_token_int(Roll_NO, "Client")
             return {"Login": "Successful", "Token": Token}
     else:
         raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)

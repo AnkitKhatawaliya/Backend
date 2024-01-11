@@ -1,19 +1,16 @@
 from datetime import datetime
-
 from DataBase.DB_conn import Fetch_all_from_database, Fetch_par_from_database
-from Models.Client_Schemas import Validation_Model
 from Security.Hash import Convert_to_hash
 
 
-def DB_Validate_Parent(Data: Validation_Model):
-    ClassName = "class" + f"{Data.Standard}" + f"{Data.Section}"
-    ColumnsName = f"Roll_NO_{Data.Roll_NO}"
-    Data.Password = Convert_to_hash(Data.Password)
+def DB_Validate_Parent(Standard: str, Section: str, Roll_NO: int, Password: str):
+    ClassName = "class" + f"{Standard}" + f"{Section}"
+    ColumnsName = f"Roll_NO_{Roll_NO}"
     Query = f"SELECT {ColumnsName}  FROM {ClassName} WHERE Context = 'Parent_PSD'"
     try:
         result = Fetch_all_from_database(Query)
-        print(Data.Password)
-        if result[0][0] == Data.Password:
+        print(Password)
+        if result[0][0] == Convert_to_hash(Password):
             return True
         elif result is None:
             return None
@@ -24,20 +21,22 @@ def DB_Validate_Parent(Data: Validation_Model):
         return False
 
 
-def DB_Validate_Student(Data: Validation_Model):
-    ClassName = "class" + f"{Data.Standard}" + f"{Data.Section}"
-    ColumnsName = f"Roll_NO_{Data.Roll_NO}"
-    Data.Password = Convert_to_hash(Data.Password)
+def DB_Validate_Student(Standard: str, Section: str, Roll_NO: int, Password: str):
+    ClassName = "class" + f"{Standard}" + f"{Section}"
+    ColumnsName = f"Roll_NO_{Roll_NO}"
     Query = f"SELECT {ColumnsName}  FROM {ClassName} WHERE Context = 'Password'"
     try:
         result = Fetch_all_from_database(Query)
-        print(Data.Password)
-        if result[0][0] == Data.Password:
+        print(Password)
+        if result[0][0] == Convert_to_hash(Password):
             return True
         elif result is None:
             return None
         else:
             return False
+    except Exception as e:
+        print(e)
+        return False
     except Exception as e:
         print(e)
         return False
