@@ -14,6 +14,11 @@ router = APIRouter()
 @router.post('/validate_Client')
 def validate_client(Data: Validation_Model):
     if Data.Role == "Parent":
+        print(Data.Password)
+        print(Data.Roll_NO)
+        print(Data.Standard)
+        print(Data.Role)
+        print(Data.Roll_NO)
         Result = DB_Validate_Parent(Data)
         if Result is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
