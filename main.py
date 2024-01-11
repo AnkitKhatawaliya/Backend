@@ -21,7 +21,7 @@ def Check_Connection():
         return {"Connection": "Hampered"}
 
 
-# app.include_router(admin_routers, prefix="/Admin")
-# app.include_router(teacher_routers, prefix="/Teacher")
+app.include_router(admin_routers, prefix="/Admin")
+app.include_router(teacher_routers, prefix="/Teacher")
 app.include_router(client_routers, prefix="/Client")
 app.include_router(general_purpose_routers, prefix="/gen")

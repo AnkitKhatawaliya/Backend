@@ -9,11 +9,11 @@ def DB_Validate_Parent(Data: Validation_Model):
     ClassName = "class" + f"{Data.Standard}" + f"{Data.Section}"
     ColumnsName = f"Roll_NO_{Data.Roll_NO}"
     Data.Password = Convert_to_hash(Data.Password)
-    Query = f"SELECT {ColumnsName} ,Context FROM {ClassName} WHERE Context = %s"
-    Value = f"Parent_PSD"
+    Query = f"SELECT {ColumnsName}  FROM {ClassName} WHERE Context = 'Parent_PSD'"
     try:
-        result = fetch_from_database(Query, Value)
-        if result["Parent_PSD"] == Data.Password:
+        result = Fetch_all_from_database(Query)
+        print(Data.Password)
+        if result[0][0] == Data.Password:
             return True
         elif result is None:
             return None
@@ -28,7 +28,7 @@ def DB_Validate_Student(Data: Validation_Model):
     ClassName = "class" + f"{Data.Standard}" + f"{Data.Section}"
     ColumnsName = f"Roll_NO_{Data.Roll_NO}"
     Data.Password = Convert_to_hash(Data.Password)
-    Query = f"SELECT {ColumnsName} ,Context FROM {ClassName} WHERE Context = %s"
+    Query = f"SELECT {ColumnsName} ,Context FROM {ClassName} WHERE Context = 'Password'"
     Value = f"Password"
     try:
         result = fetch_from_database(Query, Value)

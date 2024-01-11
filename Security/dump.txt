@@ -10,16 +10,3 @@ AIzaSyBqyjCWGDC6r0UeUB5f4cs-np9NDo1D6-U
 dsn="postgresql://1234cochackers:PcDl5H3mpzRG@ep-weathered-wood-55731943.ap-southeast-1.aws.neon.tech/UserBooks?sslmode=require"
 
 alka pass = swde1qw
-
-{
-    "1": "Present",
-    "2": "Absent",
-    "3": "Leave",
-    "4": "Present",
-    "5": "Present",
-    "8": "Present",
-    "6": "Present",
-    "7": "Absent",
-    "9": "Present",
-    "10": "Present"
-}

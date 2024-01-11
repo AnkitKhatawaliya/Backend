@@ -11,7 +11,7 @@ from Security.jwt_methods import create_jwt_token_int
 router = APIRouter()
 
 
-@router.get('/validate_Client')
+@router.post('/validate_Client')
 def validate_client(Data: Validation_Model):
     if Data.Role == "Parent":
         Result = DB_Validate_Parent(Data)
@@ -21,7 +21,7 @@ def validate_client(Data: Validation_Model):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         if Result is True:
             Token = create_jwt_token_int(Data.Roll_NO, "Client")
-            return {"Login": "Successful", "Token": Token}
+            return {"Token": Token}
 
     elif Data.Role == "Student":
         Result = DB_Validate_Student(Data)
