@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from DataBase.DB_conn import fetch_from_database, Fetch_all_from_database, Fetch_par_from_database
+from DataBase.DB_conn import Fetch_all_from_database, Fetch_par_from_database
 from Models.Client_Schemas import Validation_Model
 from Security.Hash import Convert_to_hash
 
@@ -28,11 +28,11 @@ def DB_Validate_Student(Data: Validation_Model):
     ClassName = "class" + f"{Data.Standard}" + f"{Data.Section}"
     ColumnsName = f"Roll_NO_{Data.Roll_NO}"
     Data.Password = Convert_to_hash(Data.Password)
-    Query = f"SELECT {ColumnsName} ,Context FROM {ClassName} WHERE Context = 'Password'"
-    Value = f"Password"
+    Query = f"SELECT {ColumnsName}  FROM {ClassName} WHERE Context = 'Password'"
     try:
-        result = fetch_from_database(Query, Value)
-        if result["Password"] == Data.Password:
+        result = Fetch_all_from_database(Query)
+        print(Data.Password)
+        if result[0][0] == Data.Password:
             return True
         elif result is None:
             return None

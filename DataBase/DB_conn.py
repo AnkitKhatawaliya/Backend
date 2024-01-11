@@ -67,24 +67,6 @@ def Insert_on_DB(Query, values):
         db_pool.putconn(connection)
         return True
 
-
-def fetch_from_database(Query, values):
-    connection = db_pool.getconn()
-    cursor = connection.cursor()
-    try:
-        cursor.execute(Query, values)
-        result = cursor.fetchone()
-        return result
-    except Exception as e:
-        print(f"Error in Fetching from Database: {e}")
-        return False
-    finally:
-        connection.commit()
-        cursor.close()
-        db_pool.putconn(connection)
-        print("Connection Closed")
-
-
 def Fetch_par_from_database(Query, values):
     connection = db_pool.getconn()
     cursor = connection.cursor()
