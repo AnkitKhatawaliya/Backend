@@ -9,7 +9,6 @@ def DB_Validate_Parent(Standard: str, Section: str, Roll_NO: int, Password: str)
     Query = f"SELECT {ColumnsName}  FROM {ClassName} WHERE Context = 'Parent_PSD'"
     try:
         result = Fetch_all_from_database(Query)
-        print(Password)
         if result[0][0] == Convert_to_hash(Password):
             return True
         elif result is None:
