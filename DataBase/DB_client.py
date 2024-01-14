@@ -36,9 +36,6 @@ def DB_Validate_Student(Standard: str, Section: str, Roll_NO: int, Password: str
     except Exception as e:
         print(e)
         return False
-    except Exception as e:
-        print(e)
-        return False
 
 
 def DB_Basic_Info(Standard: int, Section: str, Roll_NO: int):

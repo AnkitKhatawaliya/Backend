@@ -137,10 +137,9 @@ def DB_get_Homework(Standard, Section, Subject: str):
 
 def DB_get_teacher_schedule(teacher_id: str):
     query = (
-        "SELECT Standard, Section, weekday FROM Time_Table WHERE "
-        "Lect_1 = %s OR Lect_2 = %s OR Lect_3 = %s OR "
-        "Lect_4 = %s OR Lect_5 = %s OR Lect_6 = %s OR "
-        "Lect_7 = %s OR Lect_8 = %s"
+        "SELECT Standard, Section, weekday, Lect_1, Lect_2, Lect_3, Lect_4, Lect_5, Lect_6, Lect_7, Lect_8 "
+        "FROM Time_Table WHERE Lect_1 = %s OR Lect_2 = %s OR Lect_3 = %s OR "
+        "Lect_4 = %s OR Lect_5 = %s OR Lect_6 = %s OR Lect_7 = %s OR Lect_8 = %s"
     )
     values = (teacher_id, teacher_id, teacher_id, teacher_id, teacher_id, teacher_id, teacher_id, teacher_id)
     try:
