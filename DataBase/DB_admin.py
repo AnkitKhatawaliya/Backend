@@ -86,6 +86,21 @@ def DB_delete_a_student(Standard: int, Section: str, Roll_NO: int):
     return True
 
 
+def DB_Basic_Info(Standard: int, Section: str, Roll_NO: int):
+    ClassName = "class" + f"{Standard}" + f"{Section}"
+    ColumnsName = f"Roll_NO_{Roll_NO}"
+    Query = f"SELECT Date , Context , {ColumnsName} FROM {ClassName}"
+    try:
+        result = Fetch_all_from_database(Query)
+        if result is not None:
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+        return False
+
+
 # ----------------------------------------------------------------
 # Teacher Functions
 

@@ -2,7 +2,7 @@ import tempfile
 from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from fastapi.responses import FileResponse
 from DataBase.DB_admin import DB_Add_Teacher, DB_delete_Teacher, DB_Get_Teachers, DB_add_Time_Table
-from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records
+from DataBase.DB_admin import DB_Create_Class_Table, DB_add_a_student, DB_get_Class_records, DB_Basic_Info
 from DataBase.DB_admin import DB_Create_HW_Table, DB_Config_HW_Table, DB_delete_a_student
 from DataBase.DB_admin import DB_delete_time_table, DB_get_time_tale, DB_add_Notice, DB_delete_Notice, DB_get_Notices
 from Models.Admin_schemas import AdminLogin, Class_Table, StudentModel, TeacherModel, TimeTableModel, Notices_Model
@@ -64,6 +64,18 @@ def Get_Student(Standard: int, Section: str):
     Data = DB_get_Class_records(Standard, Section)
     if not Data:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=["error"])
+    else:
+        return Data
+
+
+@router.get('/Student_Info/{Standard}/{Section}/{Roll_NO}')
+def Get_student_info(Standard: int, Section: str, Roll_NO: int):
+    Data = DB_Basic_Info(Standard, Section, Roll_NO)
+
+    if Data is None:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT)
+    elif not Data:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
     else:
         return Data
 
