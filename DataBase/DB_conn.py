@@ -1,4 +1,4 @@
-import psycopg2.extensions
+import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2 import pool
 
@@ -66,6 +66,7 @@ def Insert_on_DB(Query, values):
         cursor.close()
         db_pool.putconn(connection)
         return True
+
 
 def Fetch_par_from_database(Query, values):
     connection = db_pool.getconn()
